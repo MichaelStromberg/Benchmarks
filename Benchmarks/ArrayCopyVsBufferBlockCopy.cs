@@ -1,12 +1,12 @@
 ﻿using System;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Running;
 
-namespace ArrayCopyVsBufferBlockCopy
+namespace Benchmarks
 {
     [CoreJob]
+    [MemoryDiagnoser]
     [RPlotExporter, RankColumn]
-    public class ArrayCopyBenchmark
+    public class ArrayCopyVsBufferBlockCopy
     {
         private readonly byte[] _compressedBlock   = new byte[65536];
         private readonly byte[] _uncompressedBlock = new byte[65536];
@@ -20,10 +20,5 @@ namespace ArrayCopyVsBufferBlockCopy
 
         [Benchmark]
         public void BufferBlockCopy() => Buffer.BlockCopy(_uncompressedBlock, 10, _compressedBlock, 10000, CopyLength);
-    }
-
-    public class Program
-    {
-        public static void Main() => BenchmarkRunner.Run<ArrayCopyBenchmark>();
     }
 }
